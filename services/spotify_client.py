@@ -15,26 +15,3 @@ class SpotifyClient:
             "Content-Type":"application/json",
         }
 
-
-    def top_songs(self):
-        playlist_id="0sDahzOkMWOmLXfTMf2N4N"
-        url = f"{self.base}/playlists/{playlist_id}/tracks"
-        # url = f"{self.base}/me/playlists"
-        songs=[]
-
-        res = requests.get(url,headers= self.headers())
-        res.raise_for_status()
-        data=res.json()
-        print("my playlist: ",data)
-        items = data["items"][:3]  # take first 3 songs
-        for item in items:
-            track = item["track"]
-            songs.append(
-                {
-                    "id":track["id"],
-                    "uri":track["uri"],
-                    "name":track["name"]
-                }
-            )
-        print("songs are: ", songs)
-        return songs

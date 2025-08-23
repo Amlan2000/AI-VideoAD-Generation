@@ -11,7 +11,6 @@ def get_agent():
         temperature=0.5
     )
 
-    # tools = [audio_tool, spotify_tool, sync_tool, video_tool]
     tools=[fetch_top_songs]
 
     memory = ConversationBufferMemory(
@@ -19,7 +18,6 @@ def get_agent():
         return_messages=True
     )
 
-    # system_prompt = get_system_prompt()
     system_prompt = "Answer questions as you are asked"
 
     agent = initialize_agent(
