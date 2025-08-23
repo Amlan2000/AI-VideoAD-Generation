@@ -14,8 +14,8 @@ def get_top_songs(sp):
     res = requests.get(url,headers= sp.headers())
     res.raise_for_status()
     data=res.json()
-    print("my playlist: ",data)
-    items = data["items"][:3]  # taking first 3 songs
+    # print("my playlist: ",data)
+    items = data["items"][:1]  # taking first 3 songs
     for item in items:
         track = item["track"]
         songs.append(
@@ -27,10 +27,5 @@ def get_top_songs(sp):
         )
     print("songs are: ", songs)
     return songs
-
-def get_audio_features(sp,songs_list):
-
-    return
-
 
 
