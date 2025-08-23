@@ -1,8 +1,8 @@
 from os import system
 from langchain_ollama import ChatOllama
 from langchain.agents import initialize_agent, AgentType
-from tools import audio_tool, spotify_tool, sync_tool, video_tool
 from langchain.memory import ConversationBufferMemory
+from tools.spotify_tool import fetch_top_songs
 
 
 def get_agent():
@@ -12,7 +12,7 @@ def get_agent():
     )
 
     # tools = [audio_tool, spotify_tool, sync_tool, video_tool]
-    tools=[]
+    tools=[fetch_top_songs]
 
     memory = ConversationBufferMemory(
         memory_key="chat_history",
