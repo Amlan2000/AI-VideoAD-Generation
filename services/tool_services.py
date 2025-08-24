@@ -15,17 +15,18 @@ def get_top_songs(sp):
     res.raise_for_status()
     data=res.json()
     # print("my playlist: ",data)
-    items = data["items"][:1]  # taking first 3 songs
+    items = data["items"][:3]  # taking first 3 songs
     for item in items:
         track = item["track"]
         songs.append(
             {
                 "id":track["id"],
                 "uri":track["uri"],
-                "name":track["name"]
+                "name":track["name"],
+                "preview_url": track["preview_url"]
             }
         )
-    print("songs are: ", songs)
+    # print("songs are: ", songs)
     return songs
 
 

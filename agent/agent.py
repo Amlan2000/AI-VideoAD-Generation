@@ -1,33 +1,43 @@
-from os import system
+# agent/agent.py
+from langchain_core.prompts import PromptTemplate
+from langchain.agents import create_react_agent, AgentExecutor
 from langchain_ollama import ChatOllama
-from langchain.agents import initialize_agent, AgentType
-from langchain.memory import ConversationBufferMemory
-from tools.spotify_tool import fetch_top_songs
-
+from tools.audio_generation_tool import audio_generation
+from tools.video_generation_tool import generate_shoe_video
 
 def get_agent():
-    llm = ChatOllama(
-        model="llama3",
-        temperature=0.5
-    )
+    llm = ChatOllama(model="llama3", temperature=0.5)
+    tools = [audio_generation, generate_shoe_video]
+    
+    # Use PromptTemplate for ReAct agents (string-based scratchpad)
+    prompt = PromptTemplate.from_template("""
+You are an AI assistant that creates Instagram marketing videos for shoes.
 
-    tools=[fetch_top_songs]
+WORKFLOW:
+1. First call audio_generation_tool to get beat data
+2. Then call video_generation_tool with that beat data
+3. Return the final video path
 
-    memory = ConversationBufferMemory(
-        memory_key="chat_history",
-        return_messages=True
-    )
+You have access to the following tools:
+{tools}
 
-    system_prompt = "Answer questions as you are asked"
+Tool names: {tool_names}
 
-    agent = initialize_agent(
-        tools,
-        llm,
-        agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION,
-        verbose=True,
-        memory=memory,
-        handle_parsing_errors=True,
-        system_message=system_prompt
-    )
+Use the following format:
+Question: the input question you must answer
+Thought: you should always think about what to do
+Action: the action to take, should be one of [{tool_names}]
+Action Input: the input to the action
+Observation: the result of the action
+... (this Thought/Action/Action Input/Observation can repeat N times)
+Thought: I now know the final answer
+Final Answer: the final answer to the original input question
 
-    return agent
+Begin!
+
+Question: {input}
+Thought: {agent_scratchpad}
+""")
+    
+    agent = create_react_agent(llm, tools, prompt)
+    return AgentExecutor(agent=agent, tools=tools, verbose=True, handle_parsing_errors=True)

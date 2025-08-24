@@ -1,0 +1,24 @@
+{
+  "input_image": "assets/images/shoe.jpeg",
+  "duration": 15,
+  "resolution": "1080x1920",
+  "fps": 30,
+  "style_prompt": "Professional shoe marketing video, slow dramatic reveals, elegant transitions, cinematic style, studio lighting, clean background",
+  "bpm": 52.7,
+  "beat_sync_points": [
+    1.7647165532879818,
+    2.9024943310657596,
+    4.063492063492063,
+    5.201269841269841,
+    6.339047619047619,
+    7.476825396825397,
+    8.614603174603175,
+    9.775600907029478,
+    10.913378684807256,
+    12.051156462585034,
+    13.188934240362812,
+    14.349931972789115
+  ],
+  "transition_style": "smooth fade",
+  "output_path": "assets/videos/shoe_marketing_1756022502.mp4"
+}
